@@ -1,0 +1,17 @@
+services:
+  sre-lab:
+    image: ubuntu:latest
+    container_name: sre-performance-lab
+    hostname: ubuntu-server
+    tty: true
+    stdin_open: true
+    cap_add:
+      - SYS_PTRACE # Pour iotop
+      - SYS_ADMIN  # Pour stress-ng
+    volumes:
+      - ./scripts:/scripts
+      - ./report_template.md:/home/report_template.md
+    command: >
+      sh -c "apt-get update && 
+             apt-get install -y sysstat htop iotop procps stress-ng nano dnsutils iputils-ping && 
+             tail -f /dev/null"
